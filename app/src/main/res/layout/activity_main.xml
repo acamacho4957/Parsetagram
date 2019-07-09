@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/instagram_background"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/ivTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/ic_instagram_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:inputType="textPersonName"
-            android:paddingLeft="12dp" />
+            android:paddingLeft="12dp"
+            android:textColor="@color/solid_white" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -66,7 +68,8 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:paddingLeft="12dp" />
+            android:paddingLeft="12dp"
+            android:textColor="@color/solid_white" />
     </android.support.design.widget.TextInputLayout>
 
     <Button

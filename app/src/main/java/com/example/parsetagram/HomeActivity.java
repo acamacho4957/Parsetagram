@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
             public void done(List<Post> objects, ParseException e) {
                 if (e == null) {
                     for (int i = 0; i < objects.size(); i++) {
-                        Log.d("HomeActivity", "Post[" + i + "] = " + objects.get(i).getDescription()
+                        Log.d(TAG, "Post[" + i + "] = " + objects.get(i).getDescription()
                          + "\nusername = " + objects.get(i).getUser().getUsername());
                     }
                 } else {
@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
                                 fragment = feedFragment;
                                 break;
                         }
-                        fragmentManager.beginTransaction().replace(R.id.your_placeholder, fragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
                         return true;
                     }
                 });

@@ -17,6 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = "LoginActivity";
+
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.btLogin) Button btLogin;
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
-                Log.d("LoginActivity", String.format("Username: %s Password: %s ", username, password));
+                Log.d(TAG, String.format("Username: %s Password: %s ", username, password));
                 login(username, password);
             }
         });
@@ -57,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-                            Log.d("LoginActivity", "User signed up successfully");
+                            Log.d(TAG, "User signed up successfully");
 
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Log.d("LoginActivity", "Sign up failed");
+                            Log.d(TAG, "Sign up failed");
                             e.printStackTrace();
                         }
                     }
@@ -78,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Log.d("LoginActivity", "User logged in successfully");
+                    Log.d(TAG, "User logged in successfully");
 
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Log.d("LoginActivity", "Login failed");
+                    Log.d(TAG, "Login failed");
                     e.printStackTrace();
                 }
             }
