@@ -249,7 +249,7 @@
     <color name="slider_sticker_question_hint">@color/grey_3</color>
     <color name="slider_sticker_question_text">@color/black</color>
     <color name="solid_white">#ffffffff</color>
-    <color name="status_bar_background">#ffb2b2b2</color>
+    <color name="status_bar_background">#B2B2B2</color>
     <color name="status_bar_background_light_semitransparent">@color/black_6_transparent</color>
     <color name="sticker_subtle_dark_background">#99b4b4b4</color>
     <color name="sticker_subtle_light_background">#99d9d9d9</color>

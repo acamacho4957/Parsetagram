@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeTab"
+        android:enabled="true"
+        android:icon="@drawable/selector_home"
+        android:title="home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/composeTab"
+        android:enabled="true"
+        android:icon="@drawable/selector_compose"
+        android:title="compose"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/profileTab"
+        android:enabled="true"
+        android:icon="@drawable/selector_profile"
+        android:title="profile"
+        app:showAsAction="ifRoom"/>
+</menu>

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -40,7 +49,25 @@ public class MainActivity extends AppCompatActivity {
         btSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                ParseUser user = new ParseUser();
+
+                user.setUsername(etUsername.getText().toString());
+                user.setPassword(etPassword.getText().toString());
+
+                user.signUpInBackground(new SignUpCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Log.d("LoginActivity", "User signed up successfully");
+
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Log.d("LoginActivity", "Sign up failed");
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
