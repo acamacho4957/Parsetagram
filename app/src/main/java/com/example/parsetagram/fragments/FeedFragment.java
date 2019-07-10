@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.parsetagram.EndlessRecyclerViewScrollListener;
 import com.example.parsetagram.PostsAdapter;
 import com.example.parsetagram.R;
 import com.example.parsetagram.model.Post;
@@ -31,9 +32,9 @@ public class FeedFragment extends Fragment {
     @BindView(R.id.pbLoading) ProgressBar pbLoading;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
-
     private PostsAdapter adapter;
     private ArrayList<Post> mPosts;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public FeedFragment() { }
 
@@ -56,14 +57,25 @@ public class FeedFragment extends Fragment {
         // set adapter on recycler view
         rvPosts.setAdapter(adapter);
         // set layout manager
-        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvPosts.setLayoutManager(linearLayoutManager);
 
-        queryPosts(false);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                queryPosts(page, false);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvPosts.addOnScrollListener(scrollListener);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryPosts(true);
+                queryPosts(0,true);
             }
         });
         // Configure the refreshing colors
@@ -72,9 +84,11 @@ public class FeedFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
+        queryPosts(0,false);
+
     }
 
-    private void queryPosts(final boolean isRefresh) {
+    private void queryPosts(int page, final boolean isRefresh) {
         if (isRefresh) {
             swipeContainer.setRefreshing(true);
         } else {
@@ -82,7 +96,7 @@ public class FeedFragment extends Fragment {
         }
 
         final Post.Query postsQuery = new Post.Query();
-        postsQuery.getTop().withUser();
+        postsQuery.getTop().withUser().onPage(page);
 
         postsQuery.findInBackground(new FindCallback<Post>() {
             @Override

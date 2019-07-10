@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.parsetagram.MainActivity;
@@ -25,6 +26,7 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.btLogout) Button btLogout;
     @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+    @BindView(R.id.tvUsername) TextView tvUsername;
 
     public ProfileFragment() { }
 
@@ -39,7 +41,8 @@ public class ProfileFragment extends Fragment {
 
         ButterKnife.bind(this, view);
         ParseUser currentUser = ParseUser.getCurrentUser();
-        Log.d(TAG, currentUser.getUsername());
+
+        tvUsername.setText(currentUser.getUsername().toString());
 
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
