@@ -11,6 +11,7 @@ public class Post extends ParseObject {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE= "image";
     private static final String KEY_USER= "user";
+    private static final String KEY_CREATED_AT= "createdAt";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -43,6 +44,7 @@ public class Post extends ParseObject {
 
         public Query getTop() {
             setLimit(20);
+            addDescendingOrder(KEY_CREATED_AT);
             return this;
         }
 
