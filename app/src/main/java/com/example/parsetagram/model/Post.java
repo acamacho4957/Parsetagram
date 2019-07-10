@@ -14,7 +14,6 @@ public class Post extends ParseObject {
     private static final String KEY_CREATED_AT= "createdAt";
     private static final Integer POSTS_PER_PAGE = 20;
 
-
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }

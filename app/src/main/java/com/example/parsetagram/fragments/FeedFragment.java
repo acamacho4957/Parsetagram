@@ -2,6 +2,7 @@ package com.example.parsetagram.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.parsetagram.EndlessRecyclerViewScrollListener;
+import com.example.parsetagram.ItemClickSupport;
 import com.example.parsetagram.PostsAdapter;
 import com.example.parsetagram.R;
 import com.example.parsetagram.model.Post;
@@ -35,6 +37,7 @@ public class FeedFragment extends Fragment {
     private PostsAdapter adapter;
     private ArrayList<Post> mPosts;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private FragmentManager fragmentManager;
 
     public FeedFragment() { }
 
@@ -83,6 +86,20 @@ public class FeedFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        fragmentManager = getFragmentManager();
+        ItemClickSupport.addTo(rvPosts).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Bundle args = new Bundle();
+                        args.putParcelable("post", mPosts.get(position));
+                        Fragment fragment = new DetailFragment();
+                        fragment.setArguments(args);
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
+                    }
+                }
+        );
 
         queryPosts(0,false);
 
