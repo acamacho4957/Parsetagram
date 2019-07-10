@@ -6,13 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/btChangeProfileImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_change"
+        android:text="Change Profile Image"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="50dp"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp"
+        android:src="@drawable/instagram_user_outline_24"
+        app:civ_border_color="@android:color/darker_gray"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +46,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/button_logout"
         android:text="Log Out"
         android:textColor="@color/white"
@@ -32,8 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvUsername"
@@ -47,4 +68,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfileImage" />
+
+    <Button
+        android:id="@+id/btAccept"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_signup"
+        android:text="Accept"
+        android:textColor="@color/solid_white"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/btLogout"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/btRevert" />
+
+    <Button
+        android:id="@+id/btRevert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_logout"
+        android:text="Revert"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/ivProfileImage"
+        app:layout_constraintStart_toStartOf="@+id/btLogout"
+        app:layout_constraintTop_toTopOf="@+id/btChangeProfileImage" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
