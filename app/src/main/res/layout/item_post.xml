@@ -5,18 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_outline"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
@@ -50,7 +38,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:text="TextView"
-        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/ivPostedImage"
         app:layout_constraintEnd_toEndOf="@+id/ivPostedImage" />
 
@@ -71,4 +59,17 @@
         app:layout_constraintEnd_toEndOf="@+id/ivPostedImage"
         app:layout_constraintStart_toStartOf="@+id/ivPostedImage"
         app:layout_constraintTop_toBottomOf="@+id/ivPostedImage" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

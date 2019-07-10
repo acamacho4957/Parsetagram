@@ -13,17 +13,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.parsetagram.model.Post;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     private Context context;
@@ -44,8 +43,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Post post = posts.get(position);
+        ParseUser user = post.getUser();
 
-        viewHolder.tvUsername.setText(post.getUser().getUsername());
+        viewHolder.tvUsername.setText(user.getUsername());
         viewHolder.tvDescription.setText(post.getDescription());
 
         ParseFile postedImage = post.getImage();
@@ -58,16 +58,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         }
 
         String rawDate = post.getCreatedAt().toString();
-        String formattedDate = rawDate.substring(4, 10) + " , " + rawDate.substring(24, 28);
-        viewHolder.tvCreatedAt.setText(formattedDate);
+        viewHolder.tvCreatedAt.setText(getRelativeTimeAgo(rawDate));
 
-        ParseFile profileImage = post.getUser().getParseFile("profileImage");
+        ParseFile profileImage = user.getParseFile("profileImage");
         if (profileImage != null) {
             String preURL = profileImage.getUrl();
             String completeURL = preURL.substring(0, 4) + "s" + preURL.substring(4, preURL.length());
             Glide.with(context)
                     .load(completeURL)
-                    .bitmapTransform(new RoundedCornersTransformation(context, 20, 0))
                     .into(viewHolder.ivProfileImage);
         }
     }
@@ -90,9 +88,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         }
     }
 
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     private String getRelativeTimeAgo(String rawJsonDate) {
-        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        String instagramFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(instagramFormat, Locale.ENGLISH);
         sf.setLenient(true);
 
         String relativeDate = "";
@@ -103,14 +102,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String abrevDate = relativeDate;
 
-        Pattern pattern = Pattern.compile("[0-9]*\\s[a-z]");
-        Matcher matcher = pattern.matcher(abrevDate);
-        if (matcher.find()) {
-            abrevDate =  matcher.group(0).replaceAll("\\s+","");
-        }
+        return relativeDate;
+    }
 
-        return abrevDate;
+    // Clean all elements of the recycler
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Post> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
     }
 }
