@@ -51,12 +51,13 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+        fragmentManager = getFragmentManager();
 
         rvPosts.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         // create the data source
         mPosts = new ArrayList<>();
         //create the adapter
-        adapter = new PostsAdapter(getContext(), mPosts);
+        adapter = new PostsAdapter(getContext(), mPosts, fragmentManager);
         // set adapter on recycler view
         rvPosts.setAdapter(adapter);
         // set layout manager
@@ -87,7 +88,6 @@ public class FeedFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        fragmentManager = getFragmentManager();
         ItemClickSupport.addTo(rvPosts).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
                     @Override

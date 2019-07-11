@@ -2,6 +2,7 @@ package com.example.parsetagram.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class DetailFragment extends Fragment {
     private final String TAG = "DetailFragment";
 
     private Post post;
+    private FragmentManager fragmentManager;
 
     @BindView(R.id.btLike) Button btLike;
     @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
@@ -47,12 +49,21 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ButterKnife.bind(this, view);
+        fragmentManager = getFragmentManager();
         post = getArguments().getParcelable("post");
-        ParseUser user = post.getUser();
+        final ParseUser user = post.getUser();
 
         tvUsername.setText(user.getUsername());
         tvDescription.setText(post.getDescription());
+
+        Integer likesCount = post.getLikes();
+        if (likesCount != null && likesCount > 0) {
+            tvLikes.setText(post.getLikes().toString());
+        } else {
+            tvLikes.setText("");
+        }
 
         ParseFile postedImage = post.getImage();
         if (postedImage != null) {
@@ -74,6 +85,20 @@ public class DetailFragment extends Fragment {
                     .load(completeURL)
                     .into(ivProfileImage);
         }
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(user);
+            }
+        });
+
+        tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(user);
+            }
+        });
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -92,5 +117,13 @@ public class DetailFragment extends Fragment {
         }
 
         return relativeDate;
+    }
+
+    private void goToProfile(ParseUser user) {
+        Bundle args = new Bundle();
+        args.putParcelable("user", user);
+        Fragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
     }
 }

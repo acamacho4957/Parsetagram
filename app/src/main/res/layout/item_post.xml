@@ -38,7 +38,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:text="TextView"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/ivPostedImage"
         app:layout_constraintEnd_toEndOf="@+id/ivPostedImage" />
 

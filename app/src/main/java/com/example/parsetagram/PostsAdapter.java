@@ -1,7 +1,10 @@
 package com.example.parsetagram;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.parsetagram.fragments.ProfileFragment;
 import com.example.parsetagram.model.Post;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -27,10 +31,12 @@ import butterknife.ButterKnife;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     private Context context;
     private ArrayList<Post> posts;
+    private FragmentManager fragmentManager;
 
-    public PostsAdapter(Context context, ArrayList<Post> posts) {
+    public PostsAdapter(Context context, ArrayList<Post> posts, FragmentManager fragmentManager) {
         this.context = context;
         this.posts = posts;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -43,7 +49,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         Post post = posts.get(position);
-        ParseUser user = post.getUser();
+        final ParseUser user = post.getUser();
 
         viewHolder.tvUsername.setText(user.getUsername());
         viewHolder.tvDescription.setText(post.getDescription());
@@ -68,6 +74,20 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     .load(completeURL)
                     .into(viewHolder.ivProfileImage);
         }
+
+        viewHolder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(user);
+            }
+        });
+
+        viewHolder.tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToProfile(user);
+            }
+        });
     }
 
     @Override
@@ -116,5 +136,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     public void addAll(List<Post> list) {
         posts.addAll(list);
         notifyDataSetChanged();
+    }
+
+    private void goToProfile(ParseUser user) {
+        Bundle args = new Bundle();
+        args.putParcelable("user", user);
+        Fragment fragment = new ProfileFragment();
+        fragment.setArguments(args);
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
     }
 }

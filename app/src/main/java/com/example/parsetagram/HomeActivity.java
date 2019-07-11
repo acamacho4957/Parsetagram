@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.parsetagram.fragments.ComposeFragment;
 import com.example.parsetagram.fragments.FeedFragment;
 import com.example.parsetagram.fragments.ProfileFragment;
+import com.example.parsetagram.fragments.SettingsFragment;
+import com.parse.ParseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +26,8 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.bnvTabs) BottomNavigationView bottomNavigationView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
+    private FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         final Fragment feedFragment = new FeedFragment();
         final Fragment composeFragment = new ComposeFragment();
@@ -52,7 +57,10 @@ public class HomeActivity extends AppCompatActivity {
                                 fragment = composeFragment;
                                 break;
                             case R.id.profileTab:
+                                Bundle args = new Bundle();
+                                args.putParcelable("user", ParseUser.getCurrentUser());
                                 fragment = profileFragment;
+                                fragment.setArguments(args);
                                 break;
                             default:
                                 fragment = feedFragment;
@@ -64,5 +72,16 @@ public class HomeActivity extends AppCompatActivity {
                 });
 
         bottomNavigationView.setSelectedItemId(R.id.homeTab);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public void onSettingsAction(MenuItem mi) {
+        final Fragment profileFragment = new SettingsFragment();
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, profileFragment).commit();
     }
 }

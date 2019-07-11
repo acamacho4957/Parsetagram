@@ -38,7 +38,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="5dp"
         android:text="TextView"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/ivPostedImage"
         app:layout_constraintEnd_toEndOf="@+id/ivPostedImage" />
 
@@ -67,8 +67,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="0dp"
+        app:civ_border_color="@android:color/darker_gray"
+        app:civ_border_width="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,6 +80,7 @@
         android:layout_marginLeft="2dp"
         android:text="100"
         android:textColor="@android:color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btLike"
         app:layout_constraintStart_toEndOf="@+id/btLike"
         app:layout_constraintTop_toTopOf="@+id/btLike" />
@@ -94,5 +95,27 @@
         android:background="@drawable/ufi_heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostedImage" />
+
+    <Button
+        android:id="@+id/btComment"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:background="@drawable/ufi_comment"
+        app:layout_constraintStart_toEndOf="@+id/btLike"
+        app:layout_constraintTop_toTopOf="@+id/btLike" />
+
+    <TextView
+        android:id="@+id/tvComments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:text="120"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/btComment"
+        app:layout_constraintStart_toEndOf="@+id/btComment"
+        app:layout_constraintTop_toTopOf="@+id/btComment" />
 
 </android.support.constraint.ConstraintLayout>

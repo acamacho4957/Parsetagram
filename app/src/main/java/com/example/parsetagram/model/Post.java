@@ -8,10 +8,11 @@ import com.parse.ParseUser;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
-    private static final String KEY_DESCRIPTION = "description";
-    private static final String KEY_IMAGE= "image";
-    private static final String KEY_USER= "user";
-    private static final String KEY_CREATED_AT= "createdAt";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_IMAGE= "image";
+    public static final String KEY_USER= "user";
+    public static final String KEY_CREATED_AT= "createdAt";
+    public static final String KEY_LIKES= "likes";
     private static final Integer POSTS_PER_PAGE = 20;
 
     public String getDescription() {
@@ -37,6 +38,29 @@ public class Post extends ParseObject {
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
+
+    public Integer getLikes() {
+        return getInt(KEY_LIKES);
+    }
+
+    public void setLikes(Integer count) {
+        put(KEY_LIKES, count);
+    }
+
+//    public ParseObject getLikers() {return getParseObject("likedBy");}
+//
+//    public void addLiker(String likerID) {
+//        if (getLikers() == null) {
+//            ArrayList<String> likers = new ArrayList<>();
+//            likers.add(likerID);
+//            put("likedBy",likers);
+//        } else {
+//            ArrayList<String> likers = (new ArrayList<>()).addAll(getLikers());
+//
+//            ArrayList<String> likers = getLikers().;
+//
+//        }
+//    }
 
     public static class Query extends ParseQuery {
         public Query() {
