@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -53,20 +54,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ParseUser user = new ParseUser();
-
                 user.setUsername(etUsername.getText().toString());
                 user.setPassword(etPassword.getText().toString());
 
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-                            Log.d(TAG, "User signed up successfully");
+                            Log.d(TAG, "Sign-up successful!");
 
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Log.d(TAG, "Sign up failed");
+                            Toast.makeText(getApplicationContext(), "Sign-up failed!", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -81,13 +81,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Log.d(TAG, "User logged in successfully");
+                    Log.d(TAG, "Login successful!");
 
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Log.d(TAG, "Login failed");
+                    Log.d(TAG, "Login failed!");
+                    Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

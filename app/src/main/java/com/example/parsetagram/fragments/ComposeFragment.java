@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.parsetagram.DeviceDimensionsHelper;
 import com.example.parsetagram.R;
 import com.example.parsetagram.model.Post;
 import com.parse.ParseException;
@@ -28,7 +29,9 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -48,6 +51,7 @@ public class ComposeFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     private File photoFile;
+    private Integer screenWidth;
 
     public ComposeFragment() { }
 
@@ -61,6 +65,7 @@ public class ComposeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
+        screenWidth = DeviceDimensionsHelper.getDisplayWidth(getContext());
 
         btPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +112,28 @@ public class ComposeFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
 //                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                Bitmap rotatedImage = rotateBitmapOrientation(photoFile.getAbsolutePath());
+                Bitmap rotatedResizedImage = rotateResizeBitmapOrientation(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
+
+                // Configure byte output stream
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                // Compress the image further
+                rotatedResizedImage.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                File resizedFile = getPhotoFileUri(photoFileName + "_resized");
+                try {
+                    resizedFile.createNewFile();
+                    FileOutputStream fos = null;
+                    fos = new FileOutputStream(resizedFile);
+                    // Write the bytes of the bitmap to file
+                    fos.write(bytes.toByteArray());
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 ivPreview.setVisibility(View.VISIBLE);
-                ivPreview.setImageBitmap(rotatedImage);
+                ivPreview.setImageBitmap(rotatedResizedImage);
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -157,7 +180,7 @@ public class ComposeFragment extends Fragment {
         });
     }
 
-    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+    public Bitmap rotateResizeBitmapOrientation(String photoFilePath) {
         // Create and configure BitmapFactory
         BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
@@ -182,6 +205,28 @@ public class ComposeFragment extends Fragment {
         matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
         Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
         // Return result
-        return rotatedBitmap;
+        Bitmap resizedRotatedBitmap = BitmapScaler.scaleToFitHeight(rotatedBitmap, screenWidth);
+
+        return resizedRotatedBitmap;
+    }
+
+    public static class BitmapScaler
+    {
+        // Scale and maintain aspect ratio given a desired width
+        // BitmapScaler.scaleToFitWidth(bitmap, 100);
+        public static Bitmap scaleToFitWidth(Bitmap b, int width)
+        {
+            float factor = width / (float) b.getWidth();
+            return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
+        }
+
+        // Scale and maintain aspect ratio given a desired height
+        // BitmapScaler.scaleToFitHeight(bitmap, 100);
+        public static Bitmap scaleToFitHeight(Bitmap b, int height)
+        {
+            float factor = height / (float) b.getHeight();
+            return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factor), height, true);
+        }
+
     }
 }

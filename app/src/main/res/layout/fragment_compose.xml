@@ -12,12 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btCapture"
         app:layout_constraintEnd_toStartOf="@+id/btPost"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPreview">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etDescription"
@@ -33,7 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/button_signup"
         android:text="Post"
+        android:textColor="@color/solid_white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -46,16 +52,19 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/button_change"
         android:text="Take Picture"
-        app:layout_constraintBottom_toTopOf="@+id/btPost"
+        android:textColor="@color/solid_white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/ivPreview"
         android:layout_width="0dp"
-        android:layout_height="400dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="350dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/btCapture"
         app:layout_constraintEnd_toEndOf="parent"
