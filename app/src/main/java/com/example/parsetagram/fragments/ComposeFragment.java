@@ -111,9 +111,7 @@ public class ComposeFragment extends Fragment {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-//                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 Bitmap rotatedResizedImage = rotateResizeBitmapOrientation(photoFile.getAbsolutePath());
-                // RESIZE BITMAP, see section below
 
                 // Configure byte output stream
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();

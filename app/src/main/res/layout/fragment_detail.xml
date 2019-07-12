@@ -22,7 +22,7 @@
     <ImageView
         android:id="@+id/ivPostedImage"
         android:layout_width="0dp"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,13 +48,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:text="TextView"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/ivPostedImage"
         app:layout_constraintStart_toStartOf="@+id/ivPostedImage"
@@ -76,8 +76,8 @@
         android:id="@+id/tvLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
         android:text="100"
         android:textColor="@android:color/black"
         android:textSize="16sp"
@@ -89,9 +89,9 @@
         android:id="@+id/btLike"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/ufi_heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPostedImage" />
@@ -100,8 +100,8 @@
         android:id="@+id/btComment"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
         android:background="@drawable/ufi_comment"
         app:layout_constraintStart_toEndOf="@+id/btLike"
         app:layout_constraintTop_toTopOf="@+id/btLike" />
@@ -114,8 +114,29 @@
         android:layout_marginLeft="2dp"
         android:text="120"
         android:textColor="@android:color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btComment"
         app:layout_constraintStart_toEndOf="@+id/btComment"
         app:layout_constraintTop_toTopOf="@+id/btComment" />
+
+    <ImageView
+        android:id="@+id/ivDirect"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        app:layout_constraintStart_toStartOf="@+id/tvComments"
+        app:layout_constraintTop_toTopOf="@+id/btComment"
+        app:srcCompat="@drawable/direct" />
+
+    <ImageView
+        android:id="@+id/ivBookmark"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivDirect"
+        app:srcCompat="@drawable/ufi_save_active" />
 
 </android.support.constraint.ConstraintLayout>

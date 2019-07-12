@@ -104,6 +104,7 @@ public class SettingsFragment extends Fragment {
         btRevert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Refresh fragment view
                 getFragmentManager().beginTransaction().detach(SettingsFragment.this).attach(SettingsFragment.this).commit();
             }
         });

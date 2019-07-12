@@ -96,7 +96,7 @@ public class FeedFragment extends Fragment {
                         args.putParcelable("post", mPosts.get(position));
                         Fragment fragment = new DetailFragment();
                         fragment.setArguments(args);
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).addToBackStack(null).commit();
                     }
                 }
         );

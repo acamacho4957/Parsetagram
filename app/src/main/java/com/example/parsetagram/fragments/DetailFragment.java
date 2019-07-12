@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.parsetagram.R;
 import com.example.parsetagram.model.Post;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,15 +49,15 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         ButterKnife.bind(this, view);
         fragmentManager = getFragmentManager();
         post = getArguments().getParcelable("post");
-        final ParseUser user = post.getUser();
+        final ParseUser author = post.getUser();
 
-        tvUsername.setText(user.getUsername());
+        tvUsername.setText(author.getUsername());
         tvDescription.setText(post.getDescription());
 
         Integer likesCount = post.getLikes();
@@ -64,6 +66,31 @@ public class DetailFragment extends Fragment {
         } else {
             tvLikes.setText("");
         }
+
+        final ParseUser currentUser = ParseUser.getCurrentUser();
+        if (post.isLikedBy(currentUser.getObjectId())) {
+            btLike.setBackground(getResources().getDrawable(R.drawable.ufi_heart_active));
+        } else {
+            btLike.setBackground(getResources().getDrawable(R.drawable.ufi_heart));
+        }
+
+        btLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (post.isLikedBy(currentUser.getObjectId())) {
+                    post.removeLike(currentUser.getObjectId());
+                } else {
+                    post.addLike(currentUser.getObjectId());
+                }
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(com.parse.ParseException e) {
+                        onViewCreated(view, savedInstanceState);
+                        Log.d(TAG, "saved like action");
+                    }
+                });
+            }
+        });
 
         ParseFile postedImage = post.getImage();
         if (postedImage != null) {
@@ -77,7 +104,7 @@ public class DetailFragment extends Fragment {
         String rawDate = post.getCreatedAt().toString();
         tvCreatedAt.setText(getRelativeTimeAgo(rawDate));
 
-        ParseFile profileImage = user.getParseFile("profileImage");
+        ParseFile profileImage = author.getParseFile("profileImage");
         if (profileImage != null) {
             String preURL = profileImage.getUrl();
             String completeURL = preURL.substring(0, 4) + "s" + preURL.substring(4, preURL.length());
@@ -89,14 +116,14 @@ public class DetailFragment extends Fragment {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToProfile(user);
+                goToProfile(author);
             }
         });
 
         tvUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToProfile(user);
+                goToProfile(author);
             }
         });
     }
@@ -106,7 +133,6 @@ public class DetailFragment extends Fragment {
         String instagramFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(instagramFormat, Locale.ENGLISH);
         sf.setLenient(true);
-
         String relativeDate = "";
         try {
             long dateMillis = sf.parse(rawJsonDate).getTime();
@@ -115,7 +141,6 @@ public class DetailFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return relativeDate;
     }
 
@@ -124,6 +149,6 @@ public class DetailFragment extends Fragment {
         args.putParcelable("user", user);
         Fragment fragment = new ProfileFragment();
         fragment.setArguments(args);
-        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).addToBackStack(null).commit();
     }
 }

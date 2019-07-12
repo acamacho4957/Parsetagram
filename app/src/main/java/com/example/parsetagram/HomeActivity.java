@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -66,12 +68,12 @@ public class HomeActivity extends AppCompatActivity {
                                 fragment = feedFragment;
                                 break;
                         }
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, fragment).addToBackStack(null).commit();
                         return true;
                     }
                 });
 
-        bottomNavigationView.setSelectedItemId(R.id.homeTab);
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feedFragment).commit();
     }
 
     @Override
@@ -82,6 +84,21 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onSettingsAction(MenuItem mi) {
         final Fragment profileFragment = new SettingsFragment();
-        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, profileFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, profileFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    Log.i("MainActivity", "popping backstack");
+                    fragmentManager.popBackStack();
+                } else {
+                    Log.i("MainActivity", "nothing on backstack, calling super");
+                    super.onBackPressed();
+                }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
