@@ -55,7 +55,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         ButterKnife.bind(this, view);
 
         user = getArguments().getParcelable("user");
@@ -78,7 +77,6 @@ public class ProfileFragment extends Fragment {
             Log.d("Profile", "no profile image");
         }
 
-        // Retain an instance so that you can call `resetState()` for fresh searches
         scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -113,7 +111,6 @@ public class ProfileFragment extends Fragment {
         );
 
         queryPosts(0,false);
-
     }
 
     private void queryPosts(int page, final boolean isRefresh) {

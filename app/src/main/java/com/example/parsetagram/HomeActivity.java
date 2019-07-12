@@ -33,15 +33,14 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fragmentManager = getSupportFragmentManager();
-
         final Fragment feedFragment = new FeedFragment();
         final Fragment composeFragment = new ComposeFragment();
         final Fragment profileFragment = new ProfileFragment();
@@ -92,10 +91,10 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 if (fragmentManager.getBackStackEntryCount() > 0) {
-                    Log.i("MainActivity", "popping backstack");
+                    Log.i(TAG, "popping backstack");
                     fragmentManager.popBackStack();
                 } else {
-                    Log.i("MainActivity", "nothing on backstack, calling super");
+                    Log.i(TAG, "nothing on backstack, calling super");
                     super.onBackPressed();
                 }
         }

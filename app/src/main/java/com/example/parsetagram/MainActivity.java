@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -37,16 +39,13 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
-                Log.d(TAG, String.format("Username: %s Password: %s ", username, password));
-                login(username, password);
+            final String username = etUsername.getText().toString();
+            final String password = etPassword.getText().toString();
+            Log.d(TAG, String.format("Username: %s Password: %s ", username, password));
+            login(username, password);
             }
         });
 
@@ -61,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             Log.d(TAG, "Sign-up successful!");
-
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             startActivity(intent);
                             finish();
@@ -82,12 +80,10 @@ public class MainActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Log.d(TAG, "Login successful!");
-
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Log.d(TAG, "Login failed!");
                     Toast.makeText(getApplicationContext(), "Login failed!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
